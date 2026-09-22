@@ -26,86 +26,25 @@ flowchart LR
 
 辨識出 **2 個 bounded context**、22 個 domain event。
 
-### 2.1 Bounded Context:費率快取已寫入
-RateCacheWritten
+### 2.1 Bounded Context:費率快取已寫入 RateCacheWritten
 
 | 元素 | 內容 |
 |---|---|
-| 🟧 Domain Events | 試算請求已拒出
-PremiumCalculationRequested、對應費率未查得
-RateNotFound
-(404)、試算輸入已驗證通過
-CalculationInputValidated、年繳保費已計算
-AnnualPremiumCalculated、年齡超出範圍已拒絕
-AgeOutOfRangeRejected
-(400)、月繳保費已計算
-MonthlyPremiumCalculated、明細超出範圍已拒絕
-InsuredAmountOutOfRangeRejected
-(400)、試算紀錄已保存
-CalculationRecordSaved、被保投保不合法已拒絕
-InvalidPaymentPeriodRejected
-(400)、試算結果已回傳
-CalculationResultReturned、費率已查得
-RateRetrieved、保費試算已完成（推論）
-PremiumCalculationCompleted |
-| 🟨 Aggregates | 費率快取已寫入
-RateCacheWritten、費率快取已逾期失效（推論）
-RateCacheExpired |
+| 🟧 Domain Events | 試算請求已拒出 PremiumCalculationRequested、對應費率未查得 RateNotFound (404)、試算輸入已驗證通過 CalculationInputValidated、年繳保費已計算 AnnualPremiumCalculated、年齡超出範圍已拒絕 AgeOutOfRangeRejected (400)、月繳保費已計算 MonthlyPremiumCalculated、明細超出範圍已拒絕 InsuredAmountOutOfRangeRejected (400)、試算紀錄已保存 CalculationRecordSaved、被保投保不合法已拒絕 InvalidPaymentPeriodRejected (400)、試算結果已回傳 CalculationResultReturned、費率已查得 RateRetrieved、保費試算已完成（推論） PremiumCalculationCompleted |
+| 🟨 Aggregates | 費率快取已寫入 RateCacheWritten、費率快取已逾期失效（推論） RateCacheExpired |
 
-### 2.2 Bounded Context:費率快取已命中
-RateCacheHit
+### 2.2 Bounded Context:費率快取已命中 RateCacheHit
 
 | 元素 | 內容 |
 |---|---|
-| 🟧 Domain Events | 業務員身分已驗證（待定）
-AgentAuthenticated、商品已建檔（待定）
-ProductRegistered、試算紀錄查詢條件已驗證（推論）
-CalculationHistoryQueryRequested、費率表已建檔（待定）
-RateTableRegistered、試算紀錄已查得
-CalculationRecordsRetrieved、費率明細已登錄（推論）
-RateEntriesRegistered、試算紀錄查詢失敗（推論）
-CalculationHistoryRetrievalService
-FAILED、費率表版本已新增
-RateTableVersionAdded、業務員身分驗證已失敗（推論）
-AgentAuthenticationFailed、非本人未授權已拒絕（推論）
-UnauthorizedAccessRejected |
-| 🟨 Aggregates | 費率快取已命中
-RateCacheHit、費率快取未命中
-RateCacheMissed、費率已從資料庫載入
-RateEntryLoadedFromDatabase |
+| 🟧 Domain Events | 業務員身分已驗證（待定） AgentAuthenticated、商品已建檔（待定） ProductRegistered、試算紀錄查詢條件已驗證（推論） CalculationHistoryQueryRequested、費率表已建檔（待定） RateTableRegistered、試算紀錄已查得 CalculationRecordsRetrieved、費率明細已登錄（推論） RateEntriesRegistered、試算紀錄查詢失敗（推論） CalculationHistoryRetrievalService FAILED、費率表版本已新增 RateTableVersionAdded、業務員身分驗證已失敗（推論） AgentAuthenticationFailed、非本人未授權已拒絕（推論） UnauthorizedAccessRejected |
+| 🟨 Aggregates | 費率快取已命中 RateCacheHit、費率快取未命中 RateCacheMissed、費率已從資料庫載入 RateEntryLoadedFromDatabase |
 
 ### 事件流(時間軸)
 
 依白板/看板的空間順序還原的完整事件流:
 
-`試算請求已拒出
-PremiumCalculationRequested` → `對應費率未查得
-RateNotFound
-(404)` → `試算輸入已驗證通過
-CalculationInputValidated` → `年繳保費已計算
-AnnualPremiumCalculated` → `年齡超出範圍已拒絕
-AgeOutOfRangeRejected
-(400)` → `月繳保費已計算
-MonthlyPremiumCalculated` → `明細超出範圍已拒絕
-InsuredAmountOutOfRangeRejected
-(400)` → `試算紀錄已保存
-CalculationRecordSaved` → `被保投保不合法已拒絕
-InvalidPaymentPeriodRejected
-(400)` → `試算結果已回傳
-CalculationResultReturned` → `費率已查得
-RateRetrieved` → `保費試算已完成（推論）
-PremiumCalculationCompleted` → `業務員身分已驗證（待定）
-AgentAuthenticated` → `商品已建檔（待定）
-ProductRegistered` → `試算紀錄查詢條件已驗證（推論）
-CalculationHistoryQueryRequested` → `費率表已建檔（待定）
-RateTableRegistered` → `試算紀錄已查得
-CalculationRecordsRetrieved` → `費率明細已登錄（推論）
-RateEntriesRegistered` → `試算紀錄查詢失敗（推論）
-CalculationHistoryRetrievalService
-FAILED` → `費率表版本已新增
-RateTableVersionAdded` → `業務員身分驗證已失敗（推論）
-AgentAuthenticationFailed` → `非本人未授權已拒絕（推論）
-UnauthorizedAccessRejected`
+`試算請求已拒出 PremiumCalculationRequested` → `對應費率未查得 RateNotFound (404)` → `試算輸入已驗證通過 CalculationInputValidated` → `年繳保費已計算 AnnualPremiumCalculated` → `年齡超出範圍已拒絕 AgeOutOfRangeRejected (400)` → `月繳保費已計算 MonthlyPremiumCalculated` → `明細超出範圍已拒絕 InsuredAmountOutOfRangeRejected (400)` → `試算紀錄已保存 CalculationRecordSaved` → `被保投保不合法已拒絕 InvalidPaymentPeriodRejected (400)` → `試算結果已回傳 CalculationResultReturned` → `費率已查得 RateRetrieved` → `保費試算已完成（推論） PremiumCalculationCompleted` → `業務員身分已驗證（待定） AgentAuthenticated` → `商品已建檔（待定） ProductRegistered` → `試算紀錄查詢條件已驗證（推論） CalculationHistoryQueryRequested` → `費率表已建檔（待定） RateTableRegistered` → `試算紀錄已查得 CalculationRecordsRetrieved` → `費率明細已登錄（推論） RateEntriesRegistered` → `試算紀錄查詢失敗（推論） CalculationHistoryRetrievalService FAILED` → `費率表版本已新增 RateTableVersionAdded` → `業務員身分驗證已失敗（推論） AgentAuthenticationFailed` → `非本人未授權已拒絕（推論） UnauthorizedAccessRejected`
 
 ## 3. Context Mapping
 
@@ -113,19 +52,14 @@ UnauthorizedAccessRejected`
 
 ```mermaid
 flowchart LR
-    費率快取已寫入RateCacheWritten["費率快取已寫入
-RateCacheWritten"]
-    費率快取已命中RateCacheHit["費率快取已命中
-RateCacheHit"]
+    費率快取已寫入RateCacheWritten["費率快取已寫入 RateCacheWritten"]
+    費率快取已命中RateCacheHit["費率快取已命中 RateCacheHit"]
     費率快取已寫入RateCacheWritten -- "U → D(事件流)" --> 費率快取已命中RateCacheHit
 ```
 
 | 上游(U) | 下游(D) | 關係依據 |
 |---|---|---|
-| 費率快取已寫入
-RateCacheWritten | 費率快取已命中
-RateCacheHit | 事件「保費試算已完成（推論）
-PremiumCalculationCompleted」觸發下游流程 |
+| 費率快取已寫入 RateCacheWritten | 費率快取已命中 RateCacheHit | 事件「保費試算已完成（推論） PremiumCalculationCompleted」觸發下游流程 |
 
 ## 4. C4 Model
 
@@ -159,25 +93,16 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    subgraph BC_費率快取已寫入RateCacheWritten["Bounded Context:費率快取已寫入
-RateCacheWritten"]
-        費率快取已寫入RateCacheWrittenSVC["費率快取已寫入
-RateCacheWrittenService"]
-        費率快取已寫入RateCacheWrittenSVC --> 費率快取已寫入RateCacheWrittenAG["費率快取已寫入
-RateCacheWritten(Aggregate)"]
-        費率快取已寫入RateCacheWrittenSVC --> 費率快取已逾期失效推論RateCacheExpiAG["費率快取已逾期失效（推論）
-RateCacheExpired(Aggregate)"]
+    subgraph BC_費率快取已寫入RateCacheWritten["Bounded Context:費率快取已寫入 RateCacheWritten"]
+        費率快取已寫入RateCacheWrittenSVC["費率快取已寫入 RateCacheWrittenService"]
+        費率快取已寫入RateCacheWrittenSVC --> 費率快取已寫入RateCacheWrittenAG["費率快取已寫入 RateCacheWritten(Aggregate)"]
+        費率快取已寫入RateCacheWrittenSVC --> 費率快取已逾期失效推論RateCacheExpiAG["費率快取已逾期失效（推論） RateCacheExpired(Aggregate)"]
     end
-    subgraph BC_費率快取已命中RateCacheHit["Bounded Context:費率快取已命中
-RateCacheHit"]
-        費率快取已命中RateCacheHitSVC["費率快取已命中
-RateCacheHitService"]
-        費率快取已命中RateCacheHitSVC --> 費率快取已命中RateCacheHitAG["費率快取已命中
-RateCacheHit(Aggregate)"]
-        費率快取已命中RateCacheHitSVC --> 費率快取未命中RateCacheMissedAG["費率快取未命中
-RateCacheMissed(Aggregate)"]
-        費率快取已命中RateCacheHitSVC --> 費率已從資料庫載入RateEntryLoadedAG["費率已從資料庫載入
-RateEntryLoadedFromDatabase(Aggregate)"]
+    subgraph BC_費率快取已命中RateCacheHit["Bounded Context:費率快取已命中 RateCacheHit"]
+        費率快取已命中RateCacheHitSVC["費率快取已命中 RateCacheHitService"]
+        費率快取已命中RateCacheHitSVC --> 費率快取已命中RateCacheHitAG["費率快取已命中 RateCacheHit(Aggregate)"]
+        費率快取已命中RateCacheHitSVC --> 費率快取未命中RateCacheMissedAG["費率快取未命中 RateCacheMissed(Aggregate)"]
+        費率快取已命中RateCacheHitSVC --> 費率已從資料庫載入RateEntryLoadedAG["費率已從資料庫載入 RateEntryLoadedFromDatabase(Aggregate)"]
     end
     BC_費率快取已寫入RateCacheWritten -.domain event.-> BC_費率快取已命中RateCacheHit
 ```
@@ -205,93 +130,64 @@ classDiagram
 
 **說明**:由事件風暴的 command→event 流逐一還原——actor 發出 command,服務落地後回應 domain event;🟪 policy 以備註標在對應服務上。各 context 一張,最後附**跨 context 的端對端 E2E 圖**。
 
-#### 費率快取已寫入
-RateCacheWritten
+#### 費率快取已寫入 RateCacheWritten
 ```mermaid
 sequenceDiagram
     actor 使用者
     participant 費率快取已寫入RateCacheWrittenService
     participant DB
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算請求已拒出
-PremiumCalculationRequested
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算請求已拒出 PremiumCalculationRequested
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:對應費率未查得
-RateNotFound
-(404)
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:對應費率未查得 RateNotFound (404)
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算輸入已驗證通過
-CalculationInputValidated
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算輸入已驗證通過 CalculationInputValidated
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:年繳保費已計算
-AnnualPremiumCalculated
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:年繳保費已計算 AnnualPremiumCalculated
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:年齡超出範圍已拒絕
-AgeOutOfRangeRejected
-(400)
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:年齡超出範圍已拒絕 AgeOutOfRangeRejected (400)
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:月繳保費已計算
-MonthlyPremiumCalculated
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:月繳保費已計算 MonthlyPremiumCalculated
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:明細超出範圍已拒絕
-InsuredAmountOutOfRangeRejected
-(400)
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:明細超出範圍已拒絕 InsuredAmountOutOfRangeRejected (400)
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算紀錄已保存
-CalculationRecordSaved
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算紀錄已保存 CalculationRecordSaved
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:被保投保不合法已拒絕
-InvalidPaymentPeriodRejected
-(400)
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:被保投保不合法已拒絕 InvalidPaymentPeriodRejected (400)
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算結果已回傳
-CalculationResultReturned
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算結果已回傳 CalculationResultReturned
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:費率已查得
-RateRetrieved
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:費率已查得 RateRetrieved
     費率快取已寫入RateCacheWrittenService->>DB: 寫入/查詢
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:保費試算已完成（推論）
-PremiumCalculationCompleted
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:保費試算已完成（推論） PremiumCalculationCompleted
 ```
 
-#### 費率快取已命中
-RateCacheHit
+#### 費率快取已命中 RateCacheHit
 ```mermaid
 sequenceDiagram
     actor 使用者
     participant 費率快取已命中RateCacheHitService
     participant DB
     費率快取已命中RateCacheHitService->>DB: 寫入/查詢
-    費率快取已命中RateCacheHitService-->>使用者: 事件:業務員身分已驗證（待定）
-AgentAuthenticated
+    費率快取已命中RateCacheHitService-->>使用者: 事件:業務員身分已驗證（待定） AgentAuthenticated
     費率快取已命中RateCacheHitService->>DB: 寫入/查詢
-    費率快取已命中RateCacheHitService-->>使用者: 事件:商品已建檔（待定）
-ProductRegistered
+    費率快取已命中RateCacheHitService-->>使用者: 事件:商品已建檔（待定） ProductRegistered
     費率快取已命中RateCacheHitService->>DB: 寫入/查詢
-    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄查詢條件已驗證（推論）
-CalculationHistoryQueryRequested
+    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄查詢條件已驗證（推論） CalculationHistoryQueryRequested
     費率快取已命中RateCacheHitService->>DB: 寫入/查詢
-    費率快取已命中RateCacheHitService-->>使用者: 事件:費率表已建檔（待定）
-RateTableRegistered
+    費率快取已命中RateCacheHitService-->>使用者: 事件:費率表已建檔（待定） RateTableRegistered
     費率快取已命中RateCacheHitService->>DB: 寫入/查詢
-    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄已查得
-CalculationRecordsRetrieved
+    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄已查得 CalculationRecordsRetrieved
     費率快取已命中RateCacheHitService->>DB: 寫入/查詢
-    費率快取已命中RateCacheHitService-->>使用者: 事件:費率明細已登錄（推論）
-RateEntriesRegistered
+    費率快取已命中RateCacheHitService-->>使用者: 事件:費率明細已登錄（推論） RateEntriesRegistered
     費率快取已命中RateCacheHitService->>DB: 寫入/查詢
-    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄查詢失敗（推論）
-CalculationHistoryRetrievalService
-FAILED
+    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄查詢失敗（推論） CalculationHistoryRetrievalService FAILED
     費率快取已命中RateCacheHitService->>DB: 寫入/查詢
-    費率快取已命中RateCacheHitService-->>使用者: 事件:費率表版本已新增
-RateTableVersionAdded
+    費率快取已命中RateCacheHitService-->>使用者: 事件:費率表版本已新增 RateTableVersionAdded
     費率快取已命中RateCacheHitService->>DB: 寫入/查詢
-    費率快取已命中RateCacheHitService-->>使用者: 事件:業務員身分驗證已失敗（推論）
-AgentAuthenticationFailed
+    費率快取已命中RateCacheHitService-->>使用者: 事件:業務員身分驗證已失敗（推論） AgentAuthenticationFailed
     費率快取已命中RateCacheHitService->>DB: 寫入/查詢
-    費率快取已命中RateCacheHitService-->>使用者: 事件:非本人未授權已拒絕（推論）
-UnauthorizedAccessRejected
+    費率快取已命中RateCacheHitService-->>使用者: 事件:非本人未授權已拒絕（推論） UnauthorizedAccessRejected
 ```
 
 #### 端對端 E2E(貫穿所有 Bounded Context)
@@ -303,123 +199,66 @@ sequenceDiagram
     actor 使用者
     participant 費率快取已寫入RateCacheWrittenService
     participant 費率快取已命中RateCacheHitService
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算請求已拒出
-PremiumCalculationRequested
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:對應費率未查得
-RateNotFound
-(404)
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算輸入已驗證通過
-CalculationInputValidated
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:年繳保費已計算
-AnnualPremiumCalculated
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:年齡超出範圍已拒絕
-AgeOutOfRangeRejected
-(400)
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:月繳保費已計算
-MonthlyPremiumCalculated
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:明細超出範圍已拒絕
-InsuredAmountOutOfRangeRejected
-(400)
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算紀錄已保存
-CalculationRecordSaved
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:被保投保不合法已拒絕
-InvalidPaymentPeriodRejected
-(400)
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算結果已回傳
-CalculationResultReturned
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:費率已查得
-RateRetrieved
-    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:保費試算已完成（推論）
-PremiumCalculationCompleted
-    費率快取已寫入RateCacheWrittenService-)費率快取已命中RateCacheHitService: 事件:保費試算已完成（推論）
-PremiumCalculationCompleted(跨 context)
-    費率快取已命中RateCacheHitService-->>使用者: 事件:業務員身分已驗證（待定）
-AgentAuthenticated
-    費率快取已命中RateCacheHitService-->>使用者: 事件:商品已建檔（待定）
-ProductRegistered
-    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄查詢條件已驗證（推論）
-CalculationHistoryQueryRequested
-    費率快取已命中RateCacheHitService-->>使用者: 事件:費率表已建檔（待定）
-RateTableRegistered
-    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄已查得
-CalculationRecordsRetrieved
-    費率快取已命中RateCacheHitService-->>使用者: 事件:費率明細已登錄（推論）
-RateEntriesRegistered
-    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄查詢失敗（推論）
-CalculationHistoryRetrievalService
-FAILED
-    費率快取已命中RateCacheHitService-->>使用者: 事件:費率表版本已新增
-RateTableVersionAdded
-    費率快取已命中RateCacheHitService-->>使用者: 事件:業務員身分驗證已失敗（推論）
-AgentAuthenticationFailed
-    費率快取已命中RateCacheHitService-->>使用者: 事件:非本人未授權已拒絕（推論）
-UnauthorizedAccessRejected
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算請求已拒出 PremiumCalculationRequested
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:對應費率未查得 RateNotFound (404)
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算輸入已驗證通過 CalculationInputValidated
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:年繳保費已計算 AnnualPremiumCalculated
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:年齡超出範圍已拒絕 AgeOutOfRangeRejected (400)
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:月繳保費已計算 MonthlyPremiumCalculated
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:明細超出範圍已拒絕 InsuredAmountOutOfRangeRejected (400)
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算紀錄已保存 CalculationRecordSaved
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:被保投保不合法已拒絕 InvalidPaymentPeriodRejected (400)
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:試算結果已回傳 CalculationResultReturned
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:費率已查得 RateRetrieved
+    費率快取已寫入RateCacheWrittenService-->>使用者: 事件:保費試算已完成（推論） PremiumCalculationCompleted
+    費率快取已寫入RateCacheWrittenService-)費率快取已命中RateCacheHitService: 事件:保費試算已完成（推論） PremiumCalculationCompleted(跨 context)
+    費率快取已命中RateCacheHitService-->>使用者: 事件:業務員身分已驗證（待定） AgentAuthenticated
+    費率快取已命中RateCacheHitService-->>使用者: 事件:商品已建檔（待定） ProductRegistered
+    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄查詢條件已驗證（推論） CalculationHistoryQueryRequested
+    費率快取已命中RateCacheHitService-->>使用者: 事件:費率表已建檔（待定） RateTableRegistered
+    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄已查得 CalculationRecordsRetrieved
+    費率快取已命中RateCacheHitService-->>使用者: 事件:費率明細已登錄（推論） RateEntriesRegistered
+    費率快取已命中RateCacheHitService-->>使用者: 事件:試算紀錄查詢失敗（推論） CalculationHistoryRetrievalService FAILED
+    費率快取已命中RateCacheHitService-->>使用者: 事件:費率表版本已新增 RateTableVersionAdded
+    費率快取已命中RateCacheHitService-->>使用者: 事件:業務員身分驗證已失敗（推論） AgentAuthenticationFailed
+    費率快取已命中RateCacheHitService-->>使用者: 事件:非本人未授權已拒絕（推論） UnauthorizedAccessRejected
 ```
 
 ### 狀態圖(State Diagram)
 
 **說明**:aggregate 的生命週期——事件風暴的事件序即狀態轉移序(每個 domain event 代表一次完成的轉移)。
 
-#### 費率快取已寫入
-RateCacheWritten
+#### 費率快取已寫入 RateCacheWritten
 ```mermaid
 stateDiagram-v2
-    [*] --> 試算請求已拒出PremiumCalculatio : 試算請求已拒出
-PremiumCalculationRequested
-    試算請求已拒出PremiumCalculatio --> 對應費率未查得RateNotFound404 : 對應費率未查得
-RateNotFound
-(404)
-    對應費率未查得RateNotFound404 --> 試算輸入已驗證通過CalculationInpu : 試算輸入已驗證通過
-CalculationInputValidated
-    試算輸入已驗證通過CalculationInpu --> 年繳保費已計算AnnualPremiumCalc : 年繳保費已計算
-AnnualPremiumCalculated
-    年繳保費已計算AnnualPremiumCalc --> 年齡超出範圍已拒絕AgeOutOfRangeRe : 年齡超出範圍已拒絕
-AgeOutOfRangeRejected
-(400)
-    年齡超出範圍已拒絕AgeOutOfRangeRe --> 月繳保費已計算MonthlyPremiumCal : 月繳保費已計算
-MonthlyPremiumCalculated
-    月繳保費已計算MonthlyPremiumCal --> 明細超出範圍已拒絕InsuredAmountOu : 明細超出範圍已拒絕
-InsuredAmountOutOfRangeRejected
-(400)
-    明細超出範圍已拒絕InsuredAmountOu --> 試算紀錄已保存CalculationRecord : 試算紀錄已保存
-CalculationRecordSaved
-    試算紀錄已保存CalculationRecord --> 被保投保不合法已拒絕InvalidPayment : 被保投保不合法已拒絕
-InvalidPaymentPeriodRejected
-(400)
-    被保投保不合法已拒絕InvalidPayment --> 試算結果已回傳CalculationResult : 試算結果已回傳
-CalculationResultReturned
-    試算結果已回傳CalculationResult --> 費率已查得RateRetrieved : 費率已查得
-RateRetrieved
-    費率已查得RateRetrieved --> 保費試算已完成推論PremiumCalculat : 保費試算已完成（推論）
-PremiumCalculationCompleted
+    [*] --> 試算請求已拒出PremiumCalculatio : 試算請求已拒出 PremiumCalculationRequested
+    試算請求已拒出PremiumCalculatio --> 對應費率未查得RateNotFound404 : 對應費率未查得 RateNotFound (404)
+    對應費率未查得RateNotFound404 --> 試算輸入已驗證通過CalculationInpu : 試算輸入已驗證通過 CalculationInputValidated
+    試算輸入已驗證通過CalculationInpu --> 年繳保費已計算AnnualPremiumCalc : 年繳保費已計算 AnnualPremiumCalculated
+    年繳保費已計算AnnualPremiumCalc --> 年齡超出範圍已拒絕AgeOutOfRangeRe : 年齡超出範圍已拒絕 AgeOutOfRangeRejected (400)
+    年齡超出範圍已拒絕AgeOutOfRangeRe --> 月繳保費已計算MonthlyPremiumCal : 月繳保費已計算 MonthlyPremiumCalculated
+    月繳保費已計算MonthlyPremiumCal --> 明細超出範圍已拒絕InsuredAmountOu : 明細超出範圍已拒絕 InsuredAmountOutOfRangeRejected (400)
+    明細超出範圍已拒絕InsuredAmountOu --> 試算紀錄已保存CalculationRecord : 試算紀錄已保存 CalculationRecordSaved
+    試算紀錄已保存CalculationRecord --> 被保投保不合法已拒絕InvalidPayment : 被保投保不合法已拒絕 InvalidPaymentPeriodRejected (400)
+    被保投保不合法已拒絕InvalidPayment --> 試算結果已回傳CalculationResult : 試算結果已回傳 CalculationResultReturned
+    試算結果已回傳CalculationResult --> 費率已查得RateRetrieved : 費率已查得 RateRetrieved
+    費率已查得RateRetrieved --> 保費試算已完成推論PremiumCalculat : 保費試算已完成（推論） PremiumCalculationCompleted
     保費試算已完成推論PremiumCalculat --> [*]
 ```
 
-#### 費率快取已命中
-RateCacheHit
+#### 費率快取已命中 RateCacheHit
 ```mermaid
 stateDiagram-v2
-    [*] --> 業務員身分已驗證待定AgentAuthentic : 業務員身分已驗證（待定）
-AgentAuthenticated
-    業務員身分已驗證待定AgentAuthentic --> 商品已建檔待定ProductRegistered : 商品已建檔（待定）
-ProductRegistered
-    商品已建檔待定ProductRegistered --> 試算紀錄查詢條件已驗證推論Calculation : 試算紀錄查詢條件已驗證（推論）
-CalculationHistoryQueryRequested
-    試算紀錄查詢條件已驗證推論Calculation --> 費率表已建檔待定RateTableRegiste : 費率表已建檔（待定）
-RateTableRegistered
-    費率表已建檔待定RateTableRegiste --> 試算紀錄已查得CalculationRecord : 試算紀錄已查得
-CalculationRecordsRetrieved
-    試算紀錄已查得CalculationRecord --> 費率明細已登錄推論RateEntriesRegi : 費率明細已登錄（推論）
-RateEntriesRegistered
-    費率明細已登錄推論RateEntriesRegi --> 試算紀錄查詢失敗推論CalculationHis : 試算紀錄查詢失敗（推論）
-CalculationHistoryRetrievalService
-FAILED
-    試算紀錄查詢失敗推論CalculationHis --> 費率表版本已新增RateTableVersion : 費率表版本已新增
-RateTableVersionAdded
-    費率表版本已新增RateTableVersion --> 業務員身分驗證已失敗推論AgentAuthent : 業務員身分驗證已失敗（推論）
-AgentAuthenticationFailed
-    業務員身分驗證已失敗推論AgentAuthent --> 非本人未授權已拒絕推論UnauthorizedA : 非本人未授權已拒絕（推論）
-UnauthorizedAccessRejected
+    [*] --> 業務員身分已驗證待定AgentAuthentic : 業務員身分已驗證（待定） AgentAuthenticated
+    業務員身分已驗證待定AgentAuthentic --> 商品已建檔待定ProductRegistered : 商品已建檔（待定） ProductRegistered
+    商品已建檔待定ProductRegistered --> 試算紀錄查詢條件已驗證推論Calculation : 試算紀錄查詢條件已驗證（推論） CalculationHistoryQueryRequested
+    試算紀錄查詢條件已驗證推論Calculation --> 費率表已建檔待定RateTableRegiste : 費率表已建檔（待定） RateTableRegistered
+    費率表已建檔待定RateTableRegiste --> 試算紀錄已查得CalculationRecord : 試算紀錄已查得 CalculationRecordsRetrieved
+    試算紀錄已查得CalculationRecord --> 費率明細已登錄推論RateEntriesRegi : 費率明細已登錄（推論） RateEntriesRegistered
+    費率明細已登錄推論RateEntriesRegi --> 試算紀錄查詢失敗推論CalculationHis : 試算紀錄查詢失敗（推論） CalculationHistoryRetrievalService FAILED
+    試算紀錄查詢失敗推論CalculationHis --> 費率表版本已新增RateTableVersion : 費率表版本已新增 RateTableVersionAdded
+    費率表版本已新增RateTableVersion --> 業務員身分驗證已失敗推論AgentAuthent : 業務員身分驗證已失敗（推論） AgentAuthenticationFailed
+    業務員身分驗證已失敗推論AgentAuthent --> 非本人未授權已拒絕推論UnauthorizedA : 非本人未授權已拒絕（推論） UnauthorizedAccessRejected
     非本人未授權已拒絕推論UnauthorizedA --> [*]
 ```
 
@@ -430,10 +269,6 @@ UnauthorizedAccessRejected
 ```mermaid
 erDiagram
     費率快取已寫入RateCacheWritten ||--o{ 費率快取已命中RateCacheHit : has
-    費率快取已命中RateCacheHit ||--o{ ADR : has
-    ADR ||--o{ NULL : has
-    NULL ||--o{ NOT : has
-    NOT ||--o{ LIFE : has
     費率快取已寫入RateCacheWritten {
         string id PK
         string name
@@ -441,30 +276,6 @@ erDiagram
         datetime created_at
     }
     費率快取已命中RateCacheHit {
-        string id PK
-        string name
-        string status
-        datetime created_at
-    }
-    ADR {
-        string id PK
-        string name
-        string status
-        datetime created_at
-    }
-    NULL {
-        string id PK
-        string name
-        string status
-        datetime created_at
-    }
-    NOT {
-        string id PK
-        string name
-        string status
-        datetime created_at
-    }
-    LIFE {
         string id PK
         string name
         string status
@@ -737,37 +548,8 @@ Feature: Rate Table and Product Management
 
 ### 各 Bounded Context 驗收要點(由 domain event 反推)
 
-- **費率快取已寫入
-RateCacheWritten**:「試算請求已拒出
-PremiumCalculationRequested」可被觀測/查詢、「對應費率未查得
-RateNotFound
-(404)」可被觀測/查詢、「試算輸入已驗證通過
-CalculationInputValidated」可被觀測/查詢、「年繳保費已計算
-AnnualPremiumCalculated」可被觀測/查詢、「年齡超出範圍已拒絕
-AgeOutOfRangeRejected
-(400)」可被觀測/查詢、「月繳保費已計算
-MonthlyPremiumCalculated」可被觀測/查詢、「明細超出範圍已拒絕
-InsuredAmountOutOfRangeRejected
-(400)」可被觀測/查詢、「試算紀錄已保存
-CalculationRecordSaved」可被觀測/查詢、「被保投保不合法已拒絕
-InvalidPaymentPeriodRejected
-(400)」可被觀測/查詢、「試算結果已回傳
-CalculationResultReturned」可被觀測/查詢、「費率已查得
-RateRetrieved」可被觀測/查詢、「保費試算已完成（推論）
-PremiumCalculationCompleted」可被觀測/查詢
-- **費率快取已命中
-RateCacheHit**:「業務員身分已驗證（待定）
-AgentAuthenticated」可被觀測/查詢、「商品已建檔（待定）
-ProductRegistered」可被觀測/查詢、「試算紀錄查詢條件已驗證（推論）
-CalculationHistoryQueryRequested」可被觀測/查詢、「費率表已建檔（待定）
-RateTableRegistered」可被觀測/查詢、「試算紀錄已查得
-CalculationRecordsRetrieved」可被觀測/查詢、「費率明細已登錄（推論）
-RateEntriesRegistered」可被觀測/查詢、「試算紀錄查詢失敗（推論）
-CalculationHistoryRetrievalService
-FAILED」可被觀測/查詢、「費率表版本已新增
-RateTableVersionAdded」可被觀測/查詢、「業務員身分驗證已失敗（推論）
-AgentAuthenticationFailed」可被觀測/查詢、「非本人未授權已拒絕（推論）
-UnauthorizedAccessRejected」可被觀測/查詢
+- **費率快取已寫入 RateCacheWritten**:「試算請求已拒出 PremiumCalculationRequested」可被觀測/查詢、「對應費率未查得 RateNotFound (404)」可被觀測/查詢、「試算輸入已驗證通過 CalculationInputValidated」可被觀測/查詢、「年繳保費已計算 AnnualPremiumCalculated」可被觀測/查詢、「年齡超出範圍已拒絕 AgeOutOfRangeRejected (400)」可被觀測/查詢、「月繳保費已計算 MonthlyPremiumCalculated」可被觀測/查詢、「明細超出範圍已拒絕 InsuredAmountOutOfRangeRejected (400)」可被觀測/查詢、「試算紀錄已保存 CalculationRecordSaved」可被觀測/查詢、「被保投保不合法已拒絕 InvalidPaymentPeriodRejected (400)」可被觀測/查詢、「試算結果已回傳 CalculationResultReturned」可被觀測/查詢、「費率已查得 RateRetrieved」可被觀測/查詢、「保費試算已完成（推論） PremiumCalculationCompleted」可被觀測/查詢
+- **費率快取已命中 RateCacheHit**:「業務員身分已驗證（待定） AgentAuthenticated」可被觀測/查詢、「商品已建檔（待定） ProductRegistered」可被觀測/查詢、「試算紀錄查詢條件已驗證（推論） CalculationHistoryQueryRequested」可被觀測/查詢、「費率表已建檔（待定） RateTableRegistered」可被觀測/查詢、「試算紀錄已查得 CalculationRecordsRetrieved」可被觀測/查詢、「費率明細已登錄（推論） RateEntriesRegistered」可被觀測/查詢、「試算紀錄查詢失敗（推論） CalculationHistoryRetrievalService FAILED」可被觀測/查詢、「費率表版本已新增 RateTableVersionAdded」可被觀測/查詢、「業務員身分驗證已失敗（推論） AgentAuthenticationFailed」可被觀測/查詢、「非本人未授權已拒絕（推論） UnauthorizedAccessRejected」可被觀測/查詢
 
 ## 8. 建置與執行
 
