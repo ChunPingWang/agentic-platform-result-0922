@@ -693,6 +693,48 @@ Feature: Rate Table and Product Management
     And the Rate is available for retrieval during premium calculations
 ```
 
+### 技術層級測試情境(出自測試案例階段)
+- [TC-CALC-001] Authenticated agent submits valid request and rate is served from cache
+- [TC-CALC-002] Rate is not in cache; system loads from rate source and populates cache
+- [TC-CALC-003] Calculation result contains annual premium, monthly premium, and calculation ID
+- [TC-CALC-004] Age equal to the minimum permitted value passes validation
+- [TC-CALC-005] Age equal to the maximum permitted value passes validation
+- [TC-CALC-006] Insured amount equal to the minimum permitted value passes validation
+- [TC-CALC-007] Insured amount equal to the maximum permitted value passes validation
+- [TC-CALC-008] Age one unit below the minimum permitted value triggers AGE_OUT_OF_RANGE rejection
+- [TC-CALC-009] Age one unit above the maximum permitted value triggers AGE_OUT_OF_RANGE rejection
+- [TC-CALC-010] Insured amount below the minimum permitted value triggers INSURED_AMOUNT_OUT_OF_RANGE rejection
+- [TC-CALC-011] Insured amount above the maximum permitted value triggers INSURED_AMOUNT_OUT_OF_RANGE rejection
+- [TC-CALC-012] An unrecognised or unsupported payment period triggers INVALID_PAYMENT_PERIOD rejection
+- [TC-CALC-013] No rate exists in cache or rate source for the given inputs; calculation is rejected
+- [TC-CALC-014] An expired cache entry is treated as a cache miss and rate is reloaded
+- [TC-CALC-015] Request with both age out of range and insured amount out of range returns both rejection codes
+- [TC-CALC-016] Completed calculation record is saved and linked to the requesting agent
+- [TC-CALC-017] If the calculation record cannot be saved, the agent receives an error response
+- [TC-CALC-018] Age value of zero is evaluated against the configured minimum age boundary
+- [TC-CALC-019] After cache expiry and successful reload, the premium is computed from the refreshed rate
+- [TC-CALC-020] After cache expiry, if the rate source also fails to return a rate, the calculation is rejected
+- [TC-CALC-021] A premium calculation request missing mandatory fields is rejected at the input level
+- [TC-CALC-022] Two simultaneous calculation requests from the same agent each produce a distinct calculation record
+- [TC-CALC-023] Simultaneous requests from different agents produce isolated calculation records
+- [TC-HIST-001] Authenticated agent queries history and matching records are returned
+- [TC-HIST-002] Authenticated agent queries history but no records match the conditions
+- [TC-HIST-003] A history query with structurally invalid conditions is rejected before data retrieval
+- [TC-HIST-004] When the data store fails during history retrieval, the agent receives a failure response
+- [TC-HIST-005] Agent attempts to retrieve records belonging to a different agent and is rejected
+- [TC-HIST-006] History query with pagination returns the correct final page without overflow
+- [TC-HIST-007] History query with date range includes records created exactly on the boundary dates
+- [TC-HIST-008] Request where the agent ID in the payload does not match the authenticated session is rejected
+- [TC-HIST-009] A calculation history query submitted without a valid session token is rejected
+- [TC-RATE-001] A new product is registered and becomes available for rate table association
+- [TC-RATE-002] A rate table is registered against a previously registered product
+- [TC-RATE-003] A new rate table version is added without affecting the existing version
+- [TC-RATE-004] Rate entries are successfully registered under a specific rate table version
+- [TC-RATE-005] Attempting to register a product with a code that already exists is rejected
+- [TC-RATE-006] Attempting to register a rate table for a product that does not exist is rejected
+- [TC-RATE-007] Attempting to register a second rate table for a product that already has one is rejected
+- [TC-RATE-008] Attempting to add a version to a rate table that does not exist is rejected
+
 ### 各 Bounded Context 驗收要點(由 domain event 反推)
 
 - **費率快取已寫入
